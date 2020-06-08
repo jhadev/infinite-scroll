@@ -1,18 +1,29 @@
+* {
+  box-sizing: border-box;
+}
+
+h1 {
+  text-align: center;
+}
+
+#action {
+  display: flex;
+  justify-content: center;
+}
+
 .item {
   background: #fff;
   border: 1px solid #666;
   height: 100px;
   display: flex;
+  width: 100%;
   align-items: center;
-  justify-content: center;
+  /* justify-content: center; */
+  margin: 5px 5px;
+  padding: 25px 25px;
 }
 
 #sentinel {
   width: 1px;
   height: 1px;
 }
-
-/* #scroller {
-  height: 400px;
-  overflow-y: scroll;
-} */
