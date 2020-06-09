@@ -94,13 +94,11 @@ function lazyLoad() {
   const observer = new IntersectionObserver((entries, self) => {
     entries.forEach((entry) => {
       console.log("entry: ", entry);
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          loadImage(entry.target);
+      if (entry.isIntersecting) {
+        loadImage(entry.target);
 
-          self.unobserve(entry.target);
-        }
-      });
+        self.unobserve(entry.target);
+      }
     });
   }, options);
 
