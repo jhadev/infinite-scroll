@@ -94,7 +94,7 @@ function loadImage(img) {
 // function that returns IntersectionObserver instance for lazy loading
 function imgObserver() {
   const options = {
-    rootMargin: "0px",
+    rootMargin: "0px 0px 20px 0px",
     threshold: 0.5,
   };
 
@@ -125,7 +125,10 @@ function lazyLoad() {
 }
 
 // new instance of InterSectionObserver for infinite scrolling/auto fetching
-const fetchObserver = new IntersectionObserver(callback, { threshold: 1 });
+const fetchObserver = new IntersectionObserver(callback, {
+  threshold: 1,
+  rootMargin: "0% 0% 5% 0%",
+});
 
 // load initial items and observe the sentinel id to load more once user scrolls to that element
 loadItems().then(() => {
