@@ -6,6 +6,12 @@ h1 {
   text-align: center;
 }
 
+body {
+  margin: 20px;
+  padding: 20px;
+  height: 100vh;
+}
+
 #action {
   display: flex;
   justify-content: center;
@@ -19,7 +25,7 @@ h1 {
   width: 100%;
   align-items: center;
   /* justify-content: center; */
-  margin: 5px 5px;
+  margin: 10px 0px;
   padding: 25px 25px;
 }
 

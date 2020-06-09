@@ -4,7 +4,7 @@ const sentinel = document.querySelector("#sentinel");
 // scroll counter
 let totalItems = 0;
 
-const url = `https://randomuser.me/api/?results=5&nat=us`;
+const url = `https://randomuser.me/api/?results=10&nat=us`;
 async function getData(url) {
   try {
     const response = await fetch(url);
