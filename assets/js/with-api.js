@@ -1,10 +1,12 @@
 const scroller = document.querySelector("#scroller");
 const sentinel = document.querySelector("#sentinel");
 
-// scroll counter
+// counter to stop fetching
 let totalItems = 0;
 
 const url = `https://randomuser.me/api/?results=10&nat=us`;
+
+// fetch data from api
 async function getData(url) {
   try {
     const response = await fetch(url);
@@ -15,6 +17,7 @@ async function getData(url) {
   }
 }
 
+// map api data function
 function mapData(arr) {
   return arr.map((data) => {
     return {
@@ -27,11 +30,13 @@ function mapData(arr) {
   });
 }
 
+// function to create DOM elements for api data
 async function loadItems() {
   let apiData = await getData(url);
   apiData = mapData(apiData);
   totalItems += apiData.length;
 
+  // stop loading at 100 items
   if (totalItems > 100) {
     const newItem = document.createElement("div");
     newItem.classList.add("item");
@@ -65,10 +70,10 @@ async function loadItems() {
     scroller.appendChild(newItem);
   });
 
-  lazyLoader();
+  lazyLoad();
 }
 
-// IntersectionObserver callback
+// fetch IntersectionObserver callback
 async function callback(entries) {
   if (entries.some((entry) => entry.intersectionRatio > 0)) {
     await loadItems();
@@ -77,6 +82,7 @@ async function callback(entries) {
   }
 }
 
+// swap data-src attr with src function
 function loadImage(img) {
   const src = img.getAttribute("data-src");
   if (!src) {
@@ -85,7 +91,8 @@ function loadImage(img) {
   img.src = src;
 }
 
-function lazyLoad() {
+// function that returns IntersectionObserver instance for lazy loading
+function imgObserver() {
   const options = {
     rootMargin: "0px",
     threshold: 0.5,
@@ -96,7 +103,7 @@ function lazyLoad() {
       console.log("entry: ", entry);
       if (entry.isIntersecting) {
         loadImage(entry.target);
-
+        // stop watching element after img is loaded
         self.unobserve(entry.target);
       }
     });
@@ -105,17 +112,22 @@ function lazyLoad() {
   return observer;
 }
 
-const observer = new IntersectionObserver(callback, { threshold: 1 });
-
-function lazyLoader() {
-  const lazyLoader = lazyLoad();
+function lazyLoad() {
+  // observer instance
+  const lazyLoader = imgObserver();
+  // select all elements with data-src attr
   const photos = document.querySelectorAll("[data-src]");
 
+  // loop over each img and observe for lazy loading
   photos.forEach((photo) => {
     lazyLoader.observe(photo);
   });
 }
 
+// new instance of InterSectionObserver for infinite scrolling/auto fetching
+const fetchObserver = new IntersectionObserver(callback, { threshold: 1 });
+
+// load initial items and observe the sentinel id to load more once user scrolls to that element
 loadItems().then(() => {
-  observer.observe(sentinel);
+  fetchObserver.observe(sentinel);
 });
